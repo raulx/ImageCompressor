@@ -2,7 +2,7 @@ function Owl() {
   return (
     <div className="relative ">
       <div>
-        <img src="../src/assets/owl-min.png" />
+        <img src="https://res.cloudinary.com/dj5yf27lr/image/upload/v1707588485/ImageCompressor%20Assets/dt9bpw4lnp09xe6k8xy9.png" />
       </div>
 
       <div className="w-24 h-24 absolute top-4 left-2 rounded-3xl overflow-hidden">
