@@ -11,6 +11,29 @@ export default {
         extraDark: "#413D51",
       },
       keyframes: {
+        rotateYAxis: {
+          "0%": {
+            transform: "rotate(0)",
+          },
+          "36%": {
+            transform: "rotate(0)",
+          },
+          "39%": {
+            transform: "rotate(15deg)",
+          },
+          "42%": {
+            transform: "rotate(0)",
+          },
+          "45%": {
+            transform: "rotate(-15deg)",
+          },
+          "48%": {
+            transform: "rotate(0)",
+          },
+          "100%": {
+            transform: "rotate(0)",
+          },
+        },
         blink: {
           "0%": {
             transform: "-translateY(100%)",
@@ -31,6 +54,7 @@ export default {
       },
       animation: {
         owlBlink: "blink 3s cubic-bezier(0,.97,0,.97) infinite",
+        fliker: "rotateYAxis 3s cubic-bezier(.97,-0.01,0,1.06) infinite",
       },
     },
   },
