@@ -15,19 +15,43 @@ export default {
           "0%": {
             transform: "rotate(0)",
           },
+          "30%": {
+            transform: "rotate(0)",
+          },
+          "31%": {
+            transform: "rotate(15deg)",
+          },
+          "32%": {
+            transform: "rotate(0)",
+          },
+          "33%": {
+            transform: "rotate(-15deg)",
+          },
+          "34%": {
+            transform: "rotate(0)",
+          },
+          "35%": {
+            transform: "rotate(15deg)",
+          },
           "36%": {
+            transform: "rotate(0)",
+          },
+          "37%": {
+            transform: "rotate(-15deg)",
+          },
+          "38%": {
             transform: "rotate(0)",
           },
           "39%": {
             transform: "rotate(15deg)",
           },
-          "42%": {
+          "40%": {
             transform: "rotate(0)",
           },
-          "45%": {
+          "41%": {
             transform: "rotate(-15deg)",
           },
-          "48%": {
+          "42%": {
             transform: "rotate(0)",
           },
           "100%": {
