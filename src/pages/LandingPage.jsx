@@ -1,4 +1,5 @@
 import Owl from "../components/Owl";
+import { Link } from "react-router-dom";
 
 function LandingPage() {
   return (
@@ -16,7 +17,7 @@ function LandingPage() {
           compress image size without affecting the quality.try it now.
         </p>
         <button className="bg-dark py-2 px-12  rounded-full text-white text-3xl drop-shadow-2xl animate-fliker">
-          Start
+          <Link to={"/main"}>Start</Link>
         </button>
       </div>
     </div>
