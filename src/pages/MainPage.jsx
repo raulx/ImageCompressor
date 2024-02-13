@@ -2,7 +2,7 @@ import { useState } from "react";
 
 function MainPage() {
   const [fileSelected, setFileSelected] = useState({
-    name: "",
+    name: "no file selected.",
     file: "",
     size: 0,
     imgLocation: "",
@@ -10,7 +10,7 @@ function MainPage() {
 
   const handleImageSelect = (e) => {
     const file = e.target.files[0];
-    const fileName = e.target.value.split("\\").pop();
+    const fileName = e.target.value.split("\\").pop().substring(0, 20);
     const fileSize = (file.size / 1024).toFixed(2) + "kb";
 
     const img = URL.createObjectURL(file);
@@ -27,10 +27,10 @@ function MainPage() {
 
   return (
     <div className="md:w-2/3 mx-auto py-2 flex flex-col overflow-hidden gap-6">
-      <div className="flex justify-center gap-6 items-center">
+      <div className="flex mx-auto min-w-36  justify-between gap-2 items-center">
         <label
           htmlFor="image-file"
-          className="bg-dark px-6 py-2 text-white rounded-2xl"
+          className="bg-dark md:px-6 md:py-2 px-4 py-2 text-white rounded-2xl text-md md:text-lg"
         >
           Choose File
         </label>
@@ -43,7 +43,7 @@ function MainPage() {
             handleImageSelect(e);
           }}
         />
-        <span className="text-3xl text-center">:</span>
+        <span className="md:text-3xl text-lg text-center">:</span>
         <p className="text-dark text-lg font-bold">{fileSelected.name}</p>
       </div>
       <div className="flex flex-col justify-center items-center gap-10">
