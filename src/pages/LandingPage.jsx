@@ -6,7 +6,7 @@ function LandingPage() {
     <div className="md:w-2/3 mx-auto text-center">
       <div className="flex flex-col items-center gap-12 justify-center h-screen ">
         <h1 className="font-extrabold text-dark text-4xl">
-          Ai Powered Image Compressor
+          Super Easy Image Compressor
         </h1>
         <div className=" bg-neutral">
           <Owl />
