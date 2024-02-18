@@ -14,7 +14,7 @@ assets
 dist
 dist-ssr
 *.local
-
+dump
 
 # Editor directories and files
 .vscode/*

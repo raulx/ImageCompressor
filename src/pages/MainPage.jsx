@@ -1,11 +1,10 @@
 import { useState } from "react";
 import * as imageConversion from "image-conversion";
 
-function compressImageToTargetSize(file, targetSizeInKB, qualityStep = 5) {
+function compressImageToTargetSize(file) {
   return new Promise((resolve, reject) => {
-    let currentQuality = 80;
+    let currentQuality = 200;
     let compressedImage;
-    let blobSize;
 
     const compressWithQuality = async () => {
       try {
@@ -13,19 +12,7 @@ function compressImageToTargetSize(file, targetSizeInKB, qualityStep = 5) {
           file,
           currentQuality
         );
-
-        blobSize = Math.round(compressedImage.size / 1024);
-
-        if (blobSize < targetSizeInKB) {
-          resolve(compressedImage);
-        } else {
-          currentQuality -= qualityStep;
-          if (currentQuality <= 0) {
-            resolve(compressedImage);
-          } else {
-            await compressWithQuality();
-          }
-        }
+        resolve(compressedImage);
       } catch (error) {
         reject(error);
       }
@@ -43,9 +30,11 @@ function MainPage() {
     imgLocation: "",
   });
 
-  const [compressedImageUrl, setCompressedImageUrl] = useState("");
-
-  const [selectedOption, setSelectedOption] = useState(0);
+  const [compressedImage, setCompressedImage] = useState({
+    file: "",
+    size: "",
+    url: "",
+  });
 
   const handleImageSelect = async (e) => {
     const file = e.target.files[0];
@@ -68,14 +57,20 @@ function MainPage() {
     const file = fileSelected.file;
     if (file) {
       try {
-        const compressedImage = await compressImageToTargetSize(
-          file,
-          selectedOption
-        );
-        console.log("Compressed image:", compressedImage);
+        const compressedImage = await compressImageToTargetSize(file);
+        const compressedImageSize =
+          (compressedImage.size / 1024).toFixed(2) + "kb";
 
         const compressedImageUrl = URL.createObjectURL(compressedImage);
-        setCompressedImageUrl(compressedImageUrl);
+
+        setCompressedImage((prevValue) => {
+          return {
+            ...prevValue,
+            file: compressedImage,
+            size: compressedImageSize,
+            url: compressedImageUrl,
+          };
+        });
       } catch (error) {
         console.error("Error compressing image:", error);
       }
@@ -110,79 +105,24 @@ function MainPage() {
           />
           <p className=" font-light text-light py-2">
             Original Image.{fileSelected.size}
-            {selectedOption}
           </p>
         </div>
       </div>
-      <div className="w-72 mt-4 mx-auto">
-        <div className="text-dark font-bold">Select Size:</div>
-        <div className="flex flex-col gap-2 mt-2">
-          <div>
-            <input
-              type="radio"
-              name="option"
-              value={49}
-              onChange={(e) => setSelectedOption(e.target.value)}
-            />
-            <label className=" text-medium font-normal">Less than 50kb</label>
-          </div>
-          <div>
-            <input
-              type="radio"
-              name="option"
-              value={75}
-              onChange={(e) => setSelectedOption(e.target.value)}
-            />
-            <label className="text-medium font-normal">
-              Between 50kb-100kb
-            </label>
-          </div>{" "}
-          <div>
-            <input
-              type="radio"
-              name="option"
-              value={200}
-              onChange={(e) => setSelectedOption(e.target.value)}
-            />
-            <label className=" text-medium font-normal">
-              Between than 100kb - 300kb
-            </label>
-          </div>{" "}
-          <div>
-            <input
-              type="radio"
-              name="option"
-              value={650}
-              onChange={(e) => setSelectedOption(e.target.value)}
-            />
-            <label className=" text-medium font-normal">
-              Between 300kb - 1MB
-            </label>
-          </div>{" "}
-          <div>
-            <input
-              type="radio"
-              name="option"
-              value={2500}
-              onChange={(e) => setSelectedOption(e.target.value)}
-            />
-            <label className=" text-medium font-normal">Between 1Mb-5Mb</label>
-          </div>
-          <button
-            className="px-4 py-2 bg-dark text-white rounded-lg"
-            onClick={handleImageCompress}
-          >
-            Compress
-          </button>
-        </div>
-      </div>
+      <button
+        className="px-4 py-2 mt-4 w-72 mx-auto bg-dark text-white rounded-lg"
+        onClick={handleImageCompress}
+      >
+        Compress
+      </button>
       <div className="flex flex-col justify-center items-center gap-10">
         <div className="w-72 h-56 border-black border-2 rounded-lg">
           <img
-            src={compressedImageUrl}
+            src={compressedImage.url}
             className="h-full w-full object-contain"
           />
-          <p className="font-light text-light py-2">Final Image.</p>
+          <p className="font-light text-light py-2">
+            Final Image.{compressedImage.size}
+          </p>
         </div>
         <button className="py-1 px-2 bg-dark text-white rounded-md">
           Save
