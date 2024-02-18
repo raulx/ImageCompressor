@@ -39,9 +39,7 @@ function MainPage() {
   const handleImageSelect = async (e) => {
     const file = e.target.files[0];
     const fileName = e.target.value.split("\\").pop().substring(0, 20);
-
     const fileSize = (file.size / 1024).toFixed(2) + "kb";
-
     const img = URL.createObjectURL(file);
     setFileSelected((prevValue) => {
       return {
@@ -75,6 +73,9 @@ function MainPage() {
         console.error("Error compressing image:", error);
       }
     }
+  };
+  const handleSave = () => {
+    imageConversion.downloadFile(compressedImage.file);
   };
   return (
     <div className="md:w-2/3 mx-auto py-2 flex flex-col overflow-hidden gap-6">
@@ -124,7 +125,10 @@ function MainPage() {
             Final Image.{compressedImage.size}
           </p>
         </div>
-        <button className="py-1 px-2 bg-dark text-white rounded-md">
+        <button
+          className="py-1 px-2 bg-dark text-white rounded-md"
+          onClick={handleSave}
+        >
           Save
         </button>
       </div>
