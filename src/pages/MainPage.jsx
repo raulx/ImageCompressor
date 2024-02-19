@@ -1,9 +1,9 @@
 import { useState } from "react";
 import * as imageConversion from "image-conversion";
 
-function compressImageToTargetSize(file) {
+function compressImageToTargetSize(file, quality) {
   return new Promise((resolve, reject) => {
-    let currentQuality = 200;
+    let currentQuality = quality;
     let compressedImage;
 
     const compressWithQuality = async () => {
@@ -26,10 +26,10 @@ function MainPage() {
   const [fileSelected, setFileSelected] = useState({
     name: "no file selected.",
     file: "",
-    size: 0,
+    size: "",
     imgLocation: "",
   });
-
+  const [percentage, setPercentage] = useState(200);
   const [compressedImage, setCompressedImage] = useState({
     file: "",
     size: "",
@@ -55,7 +55,10 @@ function MainPage() {
     const file = fileSelected.file;
     if (file) {
       try {
-        const compressedImage = await compressImageToTargetSize(file);
+        const compressedImage = await compressImageToTargetSize(
+          file,
+          percentage
+        );
         const compressedImageSize =
           (compressedImage.size / 1024).toFixed(2) + "kb";
 
@@ -101,7 +104,11 @@ function MainPage() {
       <div className="flex flex-col justify-center items-center gap-10">
         <div className="w-72 h-56 border-black border-2 rounded-lg">
           <img
-            src={fileSelected.imgLocation}
+            src={
+              !fileSelected.imgLocation
+                ? "https://res.cloudinary.com/dj5yf27lr/image/upload/v1708318245/ImageCompressor%20Assets/r27zgo62sbtxd0eiek5s.svg"
+                : fileSelected.imgLocation
+            }
             className="h-full w-full object-contain"
           />
           <p className=" font-light text-light py-2">
@@ -109,8 +116,20 @@ function MainPage() {
           </p>
         </div>
       </div>
+      <div className="mx-auto w-72 flex justify-between items-center mt-6">
+        <span className="text-dark font-bold">Quality</span>
+        <input
+          type="range"
+          min="0"
+          step="5"
+          max="200"
+          value={percentage}
+          onChange={(e) => setPercentage(e.target.value)}
+        />
+        <span className=" text-dark font-bold">{percentage}%</span>
+      </div>
       <button
-        className="px-4 py-2 mt-4 w-72 mx-auto bg-dark text-white rounded-lg"
+        className="px-4 py-2 mt-2 w-72 mx-auto bg-dark text-white rounded-lg"
         onClick={handleImageCompress}
       >
         Compress
@@ -118,7 +137,11 @@ function MainPage() {
       <div className="flex flex-col justify-center items-center gap-10">
         <div className="w-72 h-56 border-black border-2 rounded-lg">
           <img
-            src={compressedImage.url}
+            src={
+              !compressedImage.url
+                ? "https://res.cloudinary.com/dj5yf27lr/image/upload/v1708318245/ImageCompressor%20Assets/r27zgo62sbtxd0eiek5s.svg"
+                : compressedImage.url
+            }
             className="h-full w-full object-contain"
           />
           <p className="font-light text-light py-2">
@@ -126,7 +149,7 @@ function MainPage() {
           </p>
         </div>
         <button
-          className="py-1 px-2 bg-dark text-white rounded-md"
+          className="py-2 px-4 bg-dark text-white rounded-md"
           onClick={handleSave}
         >
           Save
