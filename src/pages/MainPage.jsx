@@ -35,7 +35,7 @@ function MainPage() {
     size: "",
     url: "",
   });
-
+  const [isCompressing, setIsCompressing] = useState(false);
   const handleImageSelect = async (e) => {
     const file = e.target.files[0];
     const fileName = e.target.value.split("\\").pop().substring(0, 20);
@@ -53,7 +53,9 @@ function MainPage() {
   };
   const handleImageCompress = async () => {
     const file = fileSelected.file;
+
     if (file) {
+      setIsCompressing(true);
       try {
         const compressedImage = await compressImageToTargetSize(
           file,
@@ -75,6 +77,7 @@ function MainPage() {
       } catch (error) {
         console.error("Error compressing image:", error);
       }
+      setIsCompressing(false);
     }
   };
   const handleSave = () => {
@@ -136,17 +139,29 @@ function MainPage() {
       </button>
       <div className="flex flex-col justify-center items-center gap-10">
         <div className="w-72 h-56 border-black border-2 rounded-lg">
-          <img
-            src={
-              !compressedImage.url
-                ? "https://res.cloudinary.com/dj5yf27lr/image/upload/v1708318245/ImageCompressor%20Assets/r27zgo62sbtxd0eiek5s.svg"
-                : compressedImage.url
-            }
-            className="h-full w-full object-contain"
-          />
-          <p className="font-light text-light py-2">
-            Final Image.{compressedImage.size}
-          </p>
+          {!isCompressing ? (
+            <>
+              <img
+                src={
+                  !compressedImage.url
+                    ? "https://res.cloudinary.com/dj5yf27lr/image/upload/v1708318245/ImageCompressor%20Assets/r27zgo62sbtxd0eiek5s.svg"
+                    : compressedImage.url
+                }
+                className="h-full w-full object-contain"
+              />
+
+              <p className="font-light text-light py-2">
+                Final Image.{compressedImage.size}
+              </p>
+            </>
+          ) : (
+            <div className="w-full h-full flex justify-center items-center gap-6 flex-col">
+              <span className="loader"></span>
+              <p className="text-dark font-bold animate-pulse duration-1000">
+                COMPRESSING
+              </p>
+            </div>
+          )}
         </div>
         <button
           className="py-2 px-4 bg-dark text-white rounded-md"
