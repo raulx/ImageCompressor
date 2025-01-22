@@ -29,13 +29,17 @@ function MainPage() {
     size: "",
     imgLocation: "",
   });
+
   const [percentage, setPercentage] = useState(200);
+
   const [compressedImage, setCompressedImage] = useState({
     file: "",
     size: "",
     url: "",
   });
+
   const [isCompressing, setIsCompressing] = useState(false);
+
   const handleImageSelect = async (e) => {
     const file = e.target.files[0];
     const fileName = e.target.value.split("\\").pop().substring(0, 20);
@@ -51,6 +55,7 @@ function MainPage() {
       };
     });
   };
+
   const handleImageCompress = async () => {
     const file = fileSelected.file;
 
@@ -80,9 +85,11 @@ function MainPage() {
       setIsCompressing(false);
     }
   };
+
   const handleSave = () => {
     imageConversion.downloadFile(compressedImage.file);
   };
+
   return (
     <div className="md:w-2/3 mx-auto py-2 flex flex-col overflow-hidden gap-6">
       <div className="flex mx-auto min-w-36  justify-between gap-2 items-center">
