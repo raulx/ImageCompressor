@@ -91,7 +91,7 @@ function MainPage() {
   };
 
   return (
-    <div className="md:w-2/3 mx-auto py-2 flex flex-col overflow-hidden gap-6">
+    <div className="md:w-2/3 mx-auto py-4 flex flex-col overflow-hidden gap-6">
       <div className="flex mx-auto min-w-36  justify-between gap-2 items-center">
         <label
           htmlFor="image-file"
